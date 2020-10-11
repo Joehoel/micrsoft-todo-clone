@@ -5,6 +5,8 @@
 	padding: 0 3rem;
 	color: lightgray;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 }
 
 .todo-list__header {
@@ -34,19 +36,27 @@
 	scrollbar-width: none; /* Firefox */
 }
 
-.todo-list__container .todo-list__item {
+.todo-list__container .todo-list__item,
+.new-todo__container {
 	margin-bottom: 5px;
 	display: flex;
 	align-items: center;
 	padding: 1rem;
 	background-color: #242426;
+	-webkit-user-select: none;
 }
 
-.todo-list__container .todo-list__item:hover {
+.todo-list__container .todo-list__item:hover,
+.new-todo__container:hover {
 	background-color: #292929;
 	cursor: pointer;
 }
 
 .todo-list__item .todo-list__item__text {
 	margin-left: 1rem;
+}
+
+.new-todo__container {
+	margin-top: auto;
+	margin-bottom: 1rem;
 }

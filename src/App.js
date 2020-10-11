@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import TodoList from "./components/TodoList";
-import Sidebar from "./components/Sidebar";
-import "./App.css";
-import { useStateValue } from "./contexts";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import "./App.css";
 import Login from "./components/Login";
-import { db } from "./firebase";
-import { auth } from "./firebase";
+import Sidebar from "./components/Sidebar";
+import TodoList from "./components/TodoList";
+import { useStateValue } from "./contexts";
+import { auth, db } from "./firebase";
 import { SET_ACTIVE_LIST, SET_USER } from "./reducers";
 
 function App() {

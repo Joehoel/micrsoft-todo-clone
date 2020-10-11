@@ -1,15 +1,15 @@
+import All from "@material-ui/icons/AllInclusive";
+import Planned from "@material-ui/icons/EventNote";
+import ListIcon from "@material-ui/icons/List";
+import Sun from "@material-ui/icons/WbSunny";
 import React, { useEffect, useState } from "react";
+import { useStateValue } from "../contexts";
+import { db } from "../firebase";
+import { SET_ACTIVE_LIST } from "../reducers";
+import NewList from "./NewList";
 import "./Sidebar.css";
 import SidebarItem from "./SidebarItem";
 import SidebarUser from "./SidebarUser";
-import Sun from "@material-ui/icons/WbSunny";
-import Planned from "@material-ui/icons/EventNote";
-import All from "@material-ui/icons/AllInclusive";
-import ListIcon from "@material-ui/icons/List";
-import { useStateValue } from "../contexts";
-import { db } from "../firebase";
-import NewList from "./NewList";
-import { SET_ACTIVE_LIST } from "../reducers";
 
 function Sidebar() {
 	const [{ user }, dispatch] = useStateValue();
@@ -17,16 +17,16 @@ function Sidebar() {
 
 	useEffect(() => {
 		db.collection("lists").onSnapshot(snapshot => {
-			setLists(
-				snapshot.docs.map(doc => {
-					return {
-						id: doc.id,
-						name: doc.data().name,
-					};
-				})
-			);
+			const lists = snapshot.docs.map(doc => {
+				return {
+					id: doc.id,
+					...doc.data(),
+				};
+			});
+
+			setLists(lists.filter(list => list.uid === user.uid));
 		});
-	}, []);
+	}, [user.uid]);
 
 	return (
 		<div className="sidebar">

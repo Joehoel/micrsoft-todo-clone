@@ -4,23 +4,32 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import "./TodoList.css";
 import { db } from "../firebase";
 import TodoItem from "./TodoItem";
+import NewTodo from "./NewTodo";
+import { useStateValue } from "../contexts";
 
 function TodoList({ name, id }) {
 	const [todos, setTodos] = useState([]);
+	const [{ user }] = useStateValue();
 
 	const updateTodo = (id, completed) => {
-		// db.collection(`lists`)
-		// 	.doc(id)
-		// 	.update({
+		db.collection(`todos`).doc(id).update({
+			completed: !completed,
+		});
 	};
 
 	useEffect(() => {
-		db.collection(`lists`)
-			.doc(id)
-			.onSnapshot(doc => {
-				setTodos(doc.data().todos);
+		db.collection("todos").onSnapshot(snapshot => {
+			const todos = snapshot.docs.map(doc => {
+				return { id: doc.id, ...doc.data() };
 			});
-	}, [id]);
+
+			setTodos(
+				todos.filter(
+					todo => todo.list.id === id && todo.uid === user.uid
+				)
+			);
+		});
+	}, [id, user.uid]);
 
 	return (
 		<div className="todo-list">
@@ -34,15 +43,16 @@ function TodoList({ name, id }) {
 				</div>
 			</div>
 			<div className="todo-list__container">
-				{todos?.map((todo, i) => (
+				{todos?.map(todo => (
 					<TodoItem
-						onClick={() => updateTodo(todo.id, todo.completed)}
-						text={todo.text}
-						completed={todo.completed}
-						key={`todo-${i}`}
+						updateTo={() => updateTodo(todo.id, todo.completed)}
+						text={todo?.text}
+						completed={todo?.completed}
+						key={todo?.id}
 					/>
 				))}
 			</div>
+			<NewTodo />
 		</div>
 	);
 }
