@@ -1,0 +1,62 @@
+.sidebar {
+	background-color: #242426;
+	color: lightgray;
+	display: flex;
+	flex-direction: column;
+	width: 30vw;
+	height: 100vh;
+}
+
+.sidebar hr {
+	width: 90%;
+	border-color: gray;
+}
+
+.sidebar__user {
+	display: flex;
+	align-items: center;
+	font-size: 0.8rem;
+	margin-top: 1rem;
+	margin-left: 1rem;
+}
+
+.sidebar__user__info {
+	display: flex;
+	flex-direction: column;
+	margin-left: 0.7rem;
+}
+
+.sidebar__user__info .email {
+	color: gray;
+}
+
+.sidebar__user__search {
+	margin-left: auto;
+	padding: 0.75rem;
+}
+.sidebar__user__search:hover {
+	background-color: #2d2d2f;
+}
+
+.sidebar__items {
+	margin-top: 1.5rem;
+}
+
+.sidebar__item {
+	display: flex;
+	padding: 0.5rem 0;
+	padding-left: 1rem;
+}
+
+.sidebar__item:hover {
+	background-color: #2d2d2f;
+	cursor: pointer;
+}
+
+.sidebar__item__text {
+	margin-left: 1rem;
+}
+
+.new__list {
+	color: gray;
+}
