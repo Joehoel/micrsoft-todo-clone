@@ -15,16 +15,14 @@ function TodoList({ name, id }) {
 	useEffect(() => {
 		db.collection("todos")
 			.orderBy("created", "desc")
+			.where("uid", "==", user.uid)
+			.where("list", "==", db.doc(`lists/${id}`))
 			.onSnapshot(snapshot => {
 				const todos = snapshot.docs.map(doc => {
 					return { id: doc.id, ...doc.data() };
 				});
 
-				setTodos(
-					todos.filter(
-						todo => todo.list.id === id && todo.uid === user.uid
-					)
-				);
+				setTodos(todos);
 			});
 	}, [id, user.uid]);
 

@@ -12,13 +12,13 @@ function App() {
 
 	useEffect(() => {
 		db.collection("lists").onSnapshot(snapshot => {
-			// const lists = snapshot.docs.map(doc => {
-			// 	return {
-			// 		id: doc.id,
-			// 		name: doc.data().name,
-			// 	};
-			// });
-			dispatch({ type: SET_ACTIVE_LIST, activeList: null });
+			const lists = snapshot.docs.map(doc => {
+				return {
+					id: doc.id,
+					name: doc.data().name,
+				};
+			});
+			dispatch({ type: SET_ACTIVE_LIST, activeList: lists[0] });
 		});
 
 		const unsubscribe = auth.onAuthStateChanged(authUser => {
