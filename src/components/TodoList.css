@@ -38,6 +38,7 @@
 
 .todo-list__container .todo-list__item,
 .new-todo__container {
+	border-radius: 0.25rem;
 	margin-bottom: 5px;
 	display: flex;
 	align-items: center;
@@ -52,11 +53,28 @@
 	cursor: pointer;
 }
 
-.todo-list__item .todo-list__item__text {
+.todo-list__item .todo-list__item__text,
+.new-todo__text {
 	margin-left: 1rem;
 }
 
 .new-todo__container {
 	margin-top: auto;
 	margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+}
+
+.new-todo__container .new-todo__input {
+	background: none;
+	outline: none;
+	color: white;
+	border: none;
+	margin-left: 1rem;
+	width: 100%;
+	font-size: 1.2rem;
+}
+.new-todo__container .clicked {
+	display: none;
+	z-index: -2;
 }

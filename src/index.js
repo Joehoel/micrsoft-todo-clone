@@ -6,10 +6,8 @@ import "./index.css";
 import App from "./App";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<StateProvider reducer={reducer} initialState={initialState}>
-			<App />
-		</StateProvider>
-	</React.StrictMode>,
+	<StateProvider reducer={reducer} initialState={initialState}>
+		<App />
+	</StateProvider>,
 	document.getElementById("root")
 );

@@ -46,11 +46,16 @@
 	display: flex;
 	padding: 0.5rem 0;
 	padding-left: 1rem;
+	position: relative;
 }
 
 .sidebar__item:hover {
 	background-color: #2d2d2f;
 	cursor: pointer;
+}
+
+.sidebar__item.active {
+	background-color: #2d2d2f;
 }
 
 .sidebar__item__text {

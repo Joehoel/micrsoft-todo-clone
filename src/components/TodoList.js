@@ -6,29 +6,26 @@ import { db } from "../firebase";
 import TodoItem from "./TodoItem";
 import NewTodo from "./NewTodo";
 import { useStateValue } from "../contexts";
+import { UPDATE_TODO } from "../reducers";
 
 function TodoList({ name, id }) {
 	const [todos, setTodos] = useState([]);
-	const [{ user }] = useStateValue();
-
-	const updateTodo = (id, completed) => {
-		db.collection(`todos`).doc(id).update({
-			completed: !completed,
-		});
-	};
+	const [{ user }, dispatch] = useStateValue();
 
 	useEffect(() => {
-		db.collection("todos").onSnapshot(snapshot => {
-			const todos = snapshot.docs.map(doc => {
-				return { id: doc.id, ...doc.data() };
-			});
+		db.collection("todos")
+			.orderBy("created", "desc")
+			.onSnapshot(snapshot => {
+				const todos = snapshot.docs.map(doc => {
+					return { id: doc.id, ...doc.data() };
+				});
 
-			setTodos(
-				todos.filter(
-					todo => todo.list.id === id && todo.uid === user.uid
-				)
-			);
-		});
+				setTodos(
+					todos.filter(
+						todo => todo.list.id === id && todo.uid === user.uid
+					)
+				);
+			});
 	}, [id, user.uid]);
 
 	return (
@@ -45,10 +42,10 @@ function TodoList({ name, id }) {
 			<div className="todo-list__container">
 				{todos?.map(todo => (
 					<TodoItem
-						updateTo={() => updateTodo(todo.id, todo.completed)}
 						text={todo?.text}
 						completed={todo?.completed}
 						key={todo?.id}
+						id={todo?.id}
 					/>
 				))}
 			</div>

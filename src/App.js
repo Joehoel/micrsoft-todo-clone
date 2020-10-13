@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Sidebar from "./components/Sidebar";
@@ -13,37 +12,41 @@ function App() {
 
 	useEffect(() => {
 		db.collection("lists").onSnapshot(snapshot => {
-			const lists = snapshot.docs.map(doc => {
-				return {
-					id: doc.id,
-					name: doc.data().name,
-				};
-			});
-			dispatch({ type: SET_ACTIVE_LIST, activeList: lists[0] });
+			// const lists = snapshot.docs.map(doc => {
+			// 	return {
+			// 		id: doc.id,
+			// 		name: doc.data().name,
+			// 	};
+			// });
+			dispatch({ type: SET_ACTIVE_LIST, activeList: null });
 		});
 
-		auth.onAuthStateChanged(authUser => {
+		const unsubscribe = auth.onAuthStateChanged(authUser => {
 			if (authUser) {
 				dispatch({ type: SET_USER, user: authUser });
 			} else {
 				dispatch({ type: SET_USER, user: null });
 			}
 		});
-	}, []);
+
+		return () => {
+			unsubscribe();
+		};
+	}, [dispatch]);
 
 	return (
-		<Router>
-			<div className="app__container">
-				{user && activeList ? (
-					<>
-						<Sidebar />
-						<TodoList id={activeList.id} name={activeList.name} />
-					</>
-				) : (
-					<Login />
-				)}
-			</div>
-		</Router>
+		<div className="app__container">
+			{user ? (
+				<>
+					<Sidebar />
+					{activeList && (
+						<TodoList id={activeList?.id} name={activeList?.name} />
+					)}
+				</>
+			) : (
+				<Login />
+			)}
+		</div>
 	);
 }
 
